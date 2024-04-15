@@ -5,12 +5,11 @@ require_relative "element_filter"
 
 class WebScraper
   attr_reader :url
-  attr_accessor :backlinks, :redirections
 
-  def initialize(url)
+  def initialize(url, webcrawler)
     @url = url
-    @backlinks = []
-    @redirections = []
+    @backlinks = webcrawler.backlinks
+    @redirections = webcrawler.redirections
   end
 
   def run
@@ -22,14 +21,13 @@ class WebScraper
       href = ElementFilter.new(element).href
       next if reject_element?(href)
 
-      puts href
-
-      # @backlinks << ElementFilter.new(element).create_hash if UrlFilter.backlink?(href, @url)
-      # @redirections << { href:, visited: false } if UrlFilter.redirection?(href, @url)
+      if UrlFilter.backlink?(href, @url)
+        # puts element.ancestors("nav").first
+        @backlinks << ElementFilter.new(element).create_hash(@url) if ElementFilter.new(element).respect_pattern?
+      else
+        @redirections << { href:, visited: false }
+      end
     end
-    # puts "Backlinks: #{@backlinks}"
-    # puts "----------------------------------"
-    # puts "Redirections: #{@redirections}"
   end
 
   private
@@ -44,9 +42,8 @@ class WebScraper
   end
 
   def reject_element?(href)
-    href.nil? ||
-    already_exist?(@backlinks, href) ||
-    already_exist?(@redirections, href) ||
+    href.nil? || href == "/" || href.empty? ||
+    already_exist?(@backlinks, href) || already_exist?(@redirections, href) ||
     UrlFilter.new(href).rejected_url?
   end
 
@@ -56,8 +53,3 @@ class WebScraper
 
   def already_exist?(array, href) = array.any? { |element| element[:href] == href }
 end
-
-
-WebScraper.new("https://www.les-astucieux.com/").run
-# WebScraper.new("https://forum.parents.fr/").run
-# WebScraper.new("https://www.les-astucieux.com/enlever-une-tache-de-sang/?unapproved=24462&moderation-hash=0f1e800358bd6c8b4edc94880acd9dea#comment-24462").run

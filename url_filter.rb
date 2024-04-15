@@ -52,7 +52,7 @@ class UrlFilter
   def start_with_hashtag? = @url.start_with?("#")
 
   def social_url?
-    UrlFilter::SOCIALS.include?(domain[:value])
+    SOCIALS.include?(UrlFilter.new(url).domain[:value])
   end
 
   def filter
