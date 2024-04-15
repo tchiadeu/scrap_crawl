@@ -1,6 +1,6 @@
 class UrlFilter
   attr_reader :url
-  SOCIALS = %w[facebook twitter linkedin instagram medium pinterest snapchat github youtube whatsapp skype discord twitch tiktok google apple amazon]
+  SOCIALS = %w[facebook twitter linkedin instagram medium pinterest snapchat github youtube whatsapp skype discord twitch tiktok google apple amazon telegram]
 
   def initialize(url)
     @url = url
