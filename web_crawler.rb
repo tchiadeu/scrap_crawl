@@ -55,8 +55,8 @@ puts "Enter the url you want to crawl:"
 url = gets.chomp
 puts "Enter the number of pages to scrap:"
 objective = gets.chomp.to_i
-# WebCrawler.new(url, objective).run
+WebCrawler.new(url, objective).run
 # WebCrawler.new("https://forum.parents.fr/", 1).run
-WebCrawler.new("https://www.les-astucieux.com/enlever-une-tache-de-sang/?unapproved=24462&moderation-hash=0f1e800358bd6c8b4edc94880acd9dea#comment-24462", 1000).run
+# WebCrawler.new("https://www.les-astucieux.com/enlever-une-tache-de-sang/?unapproved=24462&moderation-hash=0f1e800358bd6c8b4edc94880acd9dea#comment-24462", 1000).run
 # WebCrawler.new("https://www.les-astucieux.com/", objective).run
 # WebCrawler.new("https://www.rubydoc.info/gems/capybara/Capybara%2FNode%2FFinders:ancestor", 40).run
